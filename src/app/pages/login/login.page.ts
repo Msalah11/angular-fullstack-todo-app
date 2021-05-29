@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../services/authentication/auth.service';
 import {APIService} from '../../services/API/api.service';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import {ToastService} from '../../services/notifications/toast.service';
+import {BlockLoaderService} from '../../services/loaders/block-loader.service';
 
 @Component({
   selector: 'app-login',
@@ -8,21 +11,32 @@ import {APIService} from '../../services/API/api.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  data: FormGroup;
 
-  constructor(private authService: AuthService, private apiService: APIService) { }
+  constructor(private authService: AuthService, private apiService: APIService, private formBuilder: FormBuilder,
+              private toastService: ToastService, private loader: BlockLoaderService) {
+
+    this.data = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+    });
+
+  }
 
   ngOnInit() {
-    this.doLogin();
-    // this.authService.login();
+
   }
 
   doLogin() {
-    const userData = {
-      email: 'salah@app.com',
-      password: 'password'
-    };
-    this.apiService.PostItem('login', userData).subscribe(response => {
-      console.log('resp', response);
+    this.loader.showLoader();
+    this.apiService.PostItem('login', this.data.value).subscribe(response => {
+      this.authService.login(response);
+      this.loader.dismissLoader();
+      this.data.reset();
+    }, err => {
+      console.log('err', err.error);
+      this.loader.dismissLoader();
+      return this.toastService.showToast(err.error.message);
     });
   }
 

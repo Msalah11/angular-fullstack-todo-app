@@ -1,9 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>home</ion-title>
+    <ion-title>{{"Home" | translate}}</ion-title>
+
+    <ion-button slot="end" fill="clear" color="danger" (click)="userLogout()">
+      <ion-icon name="log-in-outline"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="ion-padding">
+  <ion-button fill="clear" color="dark">
+    {{"Add New Event" | translate}}
+    <ion-icon name="add-outline" slot="start"></ion-icon>
+  </ion-button>
 </ion-content>

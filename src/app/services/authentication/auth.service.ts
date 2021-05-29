@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   authState = new BehaviorSubject(false);
+  userStorageKey = 'MSALAH:USER_INFO';
 
   constructor( private router: Router, private storage: Storage, private platform: Platform,
                public toastController: ToastController) {
@@ -21,27 +22,23 @@ export class AuthService {
   }
 
   ifLoggedIn() {
-    this.storage.get('MSALAH:USER_INFO').then((response) => {
+    this.storage.get(this.userStorageKey).then((response) => {
       if (response) {
         this.authState.next(true);
       }
     });
   }
 
-  login() {
-
-    const dummyData = {
-      email: 'Msalah',
-      password: 'password'
-    };
-    this.storage.set('USER_INFO', dummyData).then((response) => {
+  login(userData) {
+    this.storage.set(this.userStorageKey, userData).then((response) => {
       this.router.navigate(['']);
       this.authState.next(true);
     });
   }
 
   logout() {
-    this.storage.remove('USER_INFO').then(() => {
+    console.log('logout')
+    this.storage.remove(this.userStorageKey).then(() => {
       this.router.navigate(['login']);
       this.authState.next(false);
     });
