@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   ifLoggedIn() {
-    this.storage.get('USER_INFO').then((response) => {
+    this.storage.get('MSALAH:USER_INFO').then((response) => {
       if (response) {
         this.authState.next(true);
       }
