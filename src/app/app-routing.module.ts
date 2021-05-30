@@ -26,6 +26,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/event-form/event-form.module').then( m => m.EventFormPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'tasks',
+    loadChildren: () => import('./pages/task-form/task-form.module').then( m => m.TaskFormPageModule)
+  },
+
 
 ];
 

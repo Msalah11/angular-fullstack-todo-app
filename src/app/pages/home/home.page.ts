@@ -19,6 +19,8 @@ export class HomePage implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         const newEvent = this.router.getCurrentNavigation().extras.state.insertedEvent;
+        const newTask = this.router.getCurrentNavigation().extras.state.insertedTask;
+
         if(newEvent) {
           const eventIndex = this.events.findIndex(e => e.id === newEvent.id);
 
@@ -26,6 +28,11 @@ export class HomePage implements OnInit {
             return this.events[eventIndex].name = newEvent.name;
           }
           this.events.push(newEvent);
+        }
+
+        if(newTask) {
+          const eventIndex = this.events.findIndex(e => e.id === newTask.event_id);
+          return this.events[eventIndex].tasks.push(newTask);
         }
       }
     });
@@ -42,8 +49,12 @@ export class HomePage implements OnInit {
   }
 
   addTask(event) {
-    console.log(event);
-  }
+    const navigationExtras: NavigationExtras = {
+      state: {
+        eventData: event
+      }
+    };
+    return this.router.navigate(['tasks'], navigationExtras);  }
 
   editEvent(event) {
     const navigationExtras: NavigationExtras = {
