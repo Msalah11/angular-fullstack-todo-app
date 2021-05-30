@@ -42,6 +42,7 @@ export class AppComponent {
 
   private setAppLocale(locale) {
     this.translateService.setDefaultLang(locale);
+    this.translateService.use(locale);
     document.documentElement.setAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
     document.documentElement.setAttribute('lang', locale);
   }

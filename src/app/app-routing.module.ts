@@ -21,6 +21,12 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
+  {
+    path: 'events',
+    loadChildren: () => import('./pages/event-form/event-form.module').then( m => m.EventFormPageModule),
+    canActivate: [AuthGuard]
+  },
+
 ];
 
 @NgModule({

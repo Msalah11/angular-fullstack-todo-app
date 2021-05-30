@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title routerLink="/" tappable="">
+      <img src="assets/images/Logo.png" width="60">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-vertical ion-justify-content-center">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="4">
+        <form [formGroup]="data" (ngSubmit)="addEvent()">
+
+          <ion-card class="ion-align-items-center ion-justify-content-center">
+            <ion-card-content>
+              <ion-item>
+                <ion-label position="floating">{{"Name" | translate}}</ion-label>
+                <ion-input type="email" formControlName="name"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">{{"Due Date" | translate}}</ion-label>
+                <ion-input type="password" formControlName="date"></ion-input>
+                <ion-datetime formControlName="date" displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD"></ion-datetime>
+              </ion-item>
+
+              <ion-button expand="block" color="primary" size="large" class="ion-padding-vertical" type="submit"
+                          [disabled]="!data.valid">{{"Submit" | translate}}</ion-button>
+            </ion-card-content>
+          </ion-card>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
