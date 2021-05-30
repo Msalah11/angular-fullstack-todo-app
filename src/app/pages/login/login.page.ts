@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
   doLogin() {
     this.loader.showLoader();
     this.apiService.PostItem('login', this.data.value).subscribe(response => {
-      this.authService.login(response);
+      this.authService.login(response['response']);
       this.loader.dismissLoader();
       this.data.reset();
     }, err => {

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { ToastController, Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -9,16 +8,11 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   authState = new BehaviorSubject(false);
   userStorageKey = 'MSALAH:USER_INFO';
+  apiToken: string;
 
-  constructor( private router: Router, private storage: Storage, private platform: Platform,
-               public toastController: ToastController) {
-
+  constructor( private router: Router, private storage: Storage) {
     void this.storage.create();
-
-    this.platform.ready().then(() => {
-      this.ifLoggedIn();
-    });
-
+    this.ifLoggedIn();
   }
 
   ifLoggedIn() {
@@ -31,13 +25,13 @@ export class AuthService {
 
   login(userData) {
     this.storage.set(this.userStorageKey, userData).then((response) => {
+      this.apiToken = userData.token;
       this.router.navigate(['']);
       this.authState.next(true);
     });
   }
 
   logout() {
-    console.log('logout')
     this.storage.remove(this.userStorageKey).then(() => {
       this.router.navigate(['login']);
       this.authState.next(false);

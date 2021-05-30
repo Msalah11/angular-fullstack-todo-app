@@ -17,6 +17,7 @@ export class AppComponent {
 
   initializeApp() {
     this.setDefaultLocale();
+    this.getToken();
 
     this.authService.authState.subscribe(state => {
       if (state) {
@@ -45,4 +46,10 @@ export class AppComponent {
     document.documentElement.setAttribute('lang', locale);
   }
 
+  private getToken() {
+    if(!this.authService.apiToken) {
+      this.storage.get(this.authService.userStorageKey).then(userData =>
+        this.authService.apiToken = userData ? userData.token : '');
+    }
+  }
 }
