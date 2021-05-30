@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../services/authentication/auth.service';
 import {APIService} from '../../services/API/api.service';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +19,12 @@ export class HomePage implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         const newEvent = this.router.getCurrentNavigation().extras.state.insertedEvent;
-
         if(newEvent) {
+          const eventIndex = this.events.findIndex(e => e.id === newEvent.id);
+
+          if(eventIndex > 0) {
+            return this.events[eventIndex].name = newEvent.name;
+          }
           this.events.push(newEvent);
         }
       }
@@ -42,10 +46,21 @@ export class HomePage implements OnInit {
   }
 
   editEvent(event) {
-    console.log(event);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        eventData: event
+      }
+    };
+    return this.router.navigate(['events'], navigationExtras);
   }
 
   addEvent() {
     return this.router.navigate(['events']);
+  }
+
+  deleteEvent(event, index) {
+    this.apiService.DeleteItem(`events/${event.id}`).subscribe(res => {
+      this.events.splice(index,1);
+    });
   }
 }

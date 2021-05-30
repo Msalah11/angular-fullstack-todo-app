@@ -16,8 +16,6 @@ export class BlockLoaderService {
   }
 
   async dismissLoader() {
-    if(this.loader) {
-      this.loader.dismiss();
-    }
+    this.loader.dismiss();
   }
 }

@@ -3,11 +3,15 @@
     <ion-card-header class="ion-margin-bottom ion-no-padding">
       <ion-item lines="none">
         <ion-text>{{data.name}}</ion-text>
-        <ion-button slot="end" fill="clear" color="light" (click)="editItem()">
+        <ion-button slot="end" fill="clear" color="light" (click)="addItem()">
           <ion-icon name="add-outline"></ion-icon>
         </ion-button>
-        <ion-button slot="end" class="ion-no-margin" fill="clear" color="light" (click)="addItem()">
+        <ion-button slot="end" class="ion-no-margin" fill="clear" color="light" (click)="editItem()">
           <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button slot="end" class="ion-no-margin" fill="clear" color="light" (click)="deleteItem()">
+          <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
       </ion-item>
     </ion-card-header>

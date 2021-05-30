@@ -23,4 +23,14 @@ export class APIService {
   public PostItem(endpoint, data) {
     return this.httpClient.post(`${this.baseUrl}/${endpoint}`, data);
   }
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  public PutItem(endpoint, data) {
+    return this.httpClient.put(`${this.baseUrl}/${endpoint}`, data);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  public DeleteItem(endpoint) {
+    return this.httpClient.delete(`${this.baseUrl}/${endpoint}`);
+  }
 }

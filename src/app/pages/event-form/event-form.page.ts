@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {APIService} from '../../services/API/api.service';
 import {ToastService} from '../../services/notifications/toast.service';
 import {BlockLoaderService} from '../../services/loaders/block-loader.service';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -14,21 +14,36 @@ import { TranslateService } from '@ngx-translate/core';
 export class EventFormPage implements OnInit {
   data: FormGroup;
 
-  constructor(private apiService: APIService, private formBuilder: FormBuilder, private router: Router,
+  constructor(private apiService: APIService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute,
               private toastService: ToastService, private loader: BlockLoaderService, private translate: TranslateService) { }
 
   ngOnInit() {
     this.data = this.formBuilder.group({
+      id: [''],
       name: ['', Validators.required],
       date: ['', Validators.required],
     });
+
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        const eventData = this.router.getCurrentNavigation().extras.state.eventData;
+        if(eventData) {
+          this.data.controls.name.patchValue(eventData.name);
+          this.data.controls.date.patchValue(eventData.date);
+          this.data.controls.id.patchValue(eventData.id);
+        }
+      }
+    });
+  }
+
+  onFormSubmit() {
+    return this.data.value.id ? this.editEvent() : this.addEvent();
   }
 
   addEvent() {
     this.loader.showLoader();
     const requestData = this.handleRequestData();
 
-    console.log('requestData', requestData);
     this.apiService.PostItem('events', requestData).subscribe(response => {
       this.loader.dismissLoader();
       this.data.reset();
@@ -42,7 +57,26 @@ export class EventFormPage implements OnInit {
 
       return this.router.navigate(['/'], navigationExtras);
     }, err => {
-      console.log('err', err.error);
+      this.loader.dismissLoader();
+      return this.toastService.showToast(err.error.message);
+    });
+  }
+
+  editEvent() {
+    this.loader.showLoader();
+    const requestData = this.handleRequestData();
+
+    this.apiService.PutItem(`events/${this.data.value.id}`, requestData).subscribe(response => {
+      this.loader.dismissLoader();
+
+      const navigationExtras: NavigationExtras = {
+        state: {
+          insertedEvent: this.data.value
+        }
+      };
+      this.data.reset();
+      return this.router.navigate(['/'], navigationExtras);
+    }, err => {
       this.loader.dismissLoader();
       return this.toastService.showToast(err.error.message);
     });
@@ -50,7 +84,6 @@ export class EventFormPage implements OnInit {
 
   handleRequestData() {
     const currentLocale = this.translate.currentLang;
-    console.log('currentLocale', currentLocale);
     const data = {
       name: {},
       date: this.data.value.date.split('T')[0]

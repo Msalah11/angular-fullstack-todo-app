@@ -1,13 +1,14 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>{{"Home" | translate}}</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title routerLink="/" tappable="">
+      <img src="assets/images/Logo.png" width="60">
+    </ion-title>
 
-    <ion-button slot="end" fill="clear" color="danger" (click)="userLogout()">
+    <ion-button slot="end" fill="clear" color="light" (click)="userLogout()">
       <ion-icon name="log-in-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="ion-padding">
   <div class="content-holder">
     <div class="content-header">
@@ -23,9 +24,9 @@
           <ng-container *ngIf="events; else noData"></ng-container>
           <ion-grid class="ion-no-padding">
             <ion-row>
-              <ng-container *ngFor="let event of events">
+              <ng-container *ngFor="let event of events; let i = index">
                 <ion-col size-lg="3" size-sm="4" sizeXs="12">
-                  <app-event-card [data]="event" (onAddClick)="addTask($event)" (onEditClick)="editEvent($event)">
+                  <app-event-card [data]="event" (onAddClick)="addTask($event)" (onEditClick)="editEvent($event)" (onDeleteClick)="deleteEvent($event, i)">
                     <ng-container *ngIf="event.tasks">
                       <ng-container *ngFor="let task of event.tasks">
                         <app-task-card [data]="task"></app-task-card>
