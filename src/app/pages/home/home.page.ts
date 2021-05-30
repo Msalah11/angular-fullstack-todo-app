@@ -8,7 +8,7 @@ import {APIService} from '../../services/API/api.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-
+  events: any;
   constructor(private authService: AuthService, private apiService: APIService) { }
 
   ngOnInit() {
@@ -21,7 +21,15 @@ export class HomePage implements OnInit {
 
   loadEvents() {
     this.apiService.GetItem('events').subscribe(res => {
-      console.log(res);
+      this.events = res['response'];
     });
+  }
+
+  addNewEvent(event) {
+    console.log(event);
+  }
+
+  editEvent(event) {
+    console.log(event);
   }
 }

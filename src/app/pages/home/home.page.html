@@ -9,8 +9,44 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-button fill="clear" color="dark">
-    {{"Add New Event" | translate}}
-    <ion-icon name="add-outline" slot="start"></ion-icon>
-  </ion-button>
+  <div class="content-holder">
+    <div class="content-header">
+      <ion-button fill="clear" color="dark">
+        {{"Add New Event" | translate}}
+        <ion-icon name="add-outline" slot="start"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="content-body">
+      <div class="event-cards-holder">
+        <div class="event-card-outer">
+          <ng-container *ngIf="events; else noData"></ng-container>
+          <ion-grid class="ion-no-padding">
+            <ion-row>
+              <ng-container *ngFor="let event of events">
+                <ion-col size-lg="3" size-sm="4" sizeXs="12">
+                  <app-event-card [data]="event" (onAddClick)="addNewEvent($event)" (onEditClick)="editEvent($event)">
+                    <ng-container *ngIf="event.tasks">
+                      <ng-container *ngFor="let task of event.tasks">
+                        <app-task-card [data]="task"></app-task-card>
+                      </ng-container>
+                    </ng-container>
+                  </app-event-card>
+                </ion-col>
+              </ng-container>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <ion-card class="no-content">
+      <ion-card-content class="ion-text-center">
+        <ion-icon name="warning-outline" color="danger"></ion-icon>
+        {{"You Don't have any events yet."}}
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
 </ion-content>

@@ -1,0 +1,12 @@
+<ion-card class="task-card border-{{data.priority}}" tappable="">
+  <ion-card-content>
+    <div class="task-name">{{data.name}}</div>
+    <div class="task-date">
+      <span>{{"Start Date" | translate}}: {{data.start_date}}</span>
+      <span>{{"End Date" | translate}}: {{data.end_date}}</span>
+    </div>
+    <div class="task-priority">
+      {{"priority" | translate}}: <span class="text-{{data.priority}}">{{data.priority | translate}}</span>
+    </div>
+  </ion-card-content>
+</ion-card>

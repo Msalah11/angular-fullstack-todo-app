@@ -1,0 +1,20 @@
+<ng-container *ngIf="data">
+  <ion-card class="event-card">
+    <ion-card-header class="ion-margin-bottom ion-no-padding">
+      <ion-item lines="none">
+        <ion-text>{{data.name}}</ion-text>
+        <ion-button slot="end" fill="clear" color="light" (click)="editItem()">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" class="ion-no-margin" fill="clear" color="light" (click)="addItem()">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-card-header>
+
+    <ion-card-content class="ion-no-padding">
+      <ng-content></ng-content>
+    </ion-card-content>
+  </ion-card>
+</ng-container>
+

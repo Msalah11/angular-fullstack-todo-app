@@ -1,0 +1,81 @@
+/* ==========================================================================
+   VARS
+   ========================================================================== */
+$colors: var(--ion-color-danger), var(--ion-color-primary), var(--ion-color-dark), var(--ion-color-success), var(--ion-color-tertiary);
+$repeat: 4;
+
+.border-High {
+  border-color: var(--ion-color-danger);
+}
+
+.border-Medium {
+  border-color: var(--ion-color-success);
+}
+
+.border-Low {
+  border-color: var(--ion-color-warning);
+}
+
+.text-High {
+  color: var(--ion-color-danger);
+}
+
+.text-Medium {
+  color: var(--ion-color-success);
+}
+
+.text-Low {
+  color: var(--ion-color-warning);
+}
+/* ==========================================================================
+   CARDS
+   ========================================================================== */
+ion-card {
+  &.event-card {
+    box-shadow: none;
+    @for $i from 1 through $repeat {
+      &:nth-child(#{length($colors)}n+#{$i}) {
+        ion-card-header {
+          background: nth($colors, random(length($colors)));
+        }
+      }
+    }
+
+    ion-card-header {
+      border-radius: 5px;
+      ion-item {
+        --background: transparent;
+        color: var(--ion-color-light)
+      }
+    }
+  }
+
+  &.task-card {
+    border-width: 0 0 0 5px;
+    border-style: solid;
+    ion-card-content {
+      .task-name {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .task-date {
+        span {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &.no-content {
+    ion-card-content {
+      padding: 30px;
+      font-size: 30px;
+      ion-icon {
+        display: block;
+        font-size: 60px;
+        margin: 0 auto;
+      }
+    }
+  }
+}
